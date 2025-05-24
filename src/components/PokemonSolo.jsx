@@ -24,7 +24,7 @@ function PokemonSolo({ pokeInfo }) {
    const handleClick = () => {};
 
    return (
-      <section onClick={handleClick}>
+      <section onClick={handleClick} className="pokemon">
          <h2>{data?.name}</h2>
          <img src={data?.sprites?.front_default} />
          {data.stats.map((stat) => {
