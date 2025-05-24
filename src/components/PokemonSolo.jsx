@@ -1,4 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
+import PokemonCard from "./PokemonCard";
+import { useState } from "react";
 
 async function fetchSinglePokemon({ queryKey }) {
    const [_, pokeInfo] = queryKey;
@@ -12,20 +14,34 @@ async function fetchSinglePokemon({ queryKey }) {
    }
 }
 
-function PokemonSolo({ pokeInfo, setShowPokemon }) {
+function PokemonSolo({ pokeInfo }) {
    const { isPending, error, data } = useQuery({
       queryKey: ["pokemon", pokeInfo],
       queryFn: fetchSinglePokemon,
    });
 
+   const [showPokemon, setShowPokemon] = useState(false);
+   const togglePokemon = () => {
+      setShowPokemon(!showPokemon);
+   };
+
    if (isPending) return <h2>Loading...</h2>;
    if (error) return <h2>Error: {error} </h2>;
 
    return (
-      <section onClick={() => setShowPokemon(true)} className="pokemon">
-         <h2>{data?.name}</h2>
-         <img src={data?.sprites?.front_default} />
-      </section>
+      <div>
+         <section className="pokemon" onClick={togglePokemon}>
+            <h2>{data?.name}</h2>
+            <img src={data?.sprites?.front_default} />
+            {showPokemon && (
+               <PokemonCard
+                  pokeData={data}
+                  setShowPokemon={setShowPokemon}
+                  showPokemon={showPokemon}
+               />
+            )}
+         </section>
+      </div>
    );
 }
 export default PokemonSolo;

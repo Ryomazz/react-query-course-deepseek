@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
 import PokemonSolo from "./PokemonSolo";
-import PokemonCard from "./PokemonCard";
+import { useState } from "react";
 
 const fetchPokemons = async () => {
    try {
@@ -19,7 +18,6 @@ function Pokemons() {
       queryKey: ["pokemons"],
       queryFn: fetchPokemons,
    });
-   const [showPokemon, setShowPokemon] = useState(false);
 
    if (isPending) return <h1>Loading....</h1>;
    if (error) return <h1>There was an error: {error} </h1>;
@@ -27,12 +25,7 @@ function Pokemons() {
    return (
       <div>
          {data.map((pokeInfo) => (
-            <PokemonSolo
-               pokeInfo={pokeInfo}
-               key={pokeInfo.name}
-               showPokemon={showPokemon}
-               setShowPokemon={setShowPokemon}
-            />
+            <PokemonSolo pokeInfo={pokeInfo} key={pokeInfo.name} />
          ))}
       </div>
    );
