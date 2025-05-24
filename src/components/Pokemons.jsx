@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import PokemonSolo from "./PokemonSolo";
-
-let url = "https://pokeapi.co/api/v2/pokemon";
+import PokemonCard from "./PokemonCard";
 
 const fetchPokemons = async () => {
    try {
@@ -19,16 +19,20 @@ function Pokemons() {
       queryKey: ["pokemons"],
       queryFn: fetchPokemons,
    });
+   const [showPokemon, setShowPokemon] = useState(false);
 
    if (isPending) return <h1>Loading....</h1>;
    if (error) return <h1>There was an error: {error} </h1>;
 
-   console.log(data);
-
    return (
       <div>
          {data.map((pokeInfo) => (
-            <PokemonSolo pokeInfo={pokeInfo} key={pokeInfo.name} />
+            <PokemonSolo
+               pokeInfo={pokeInfo}
+               key={pokeInfo.name}
+               showPokemon={showPokemon}
+               setShowPokemon={setShowPokemon}
+            />
          ))}
       </div>
    );

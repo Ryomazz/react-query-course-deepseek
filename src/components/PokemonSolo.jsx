@@ -12,7 +12,7 @@ async function fetchSinglePokemon({ queryKey }) {
    }
 }
 
-function PokemonSolo({ pokeInfo }) {
+function PokemonSolo({ pokeInfo, setShowPokemon }) {
    const { isPending, error, data } = useQuery({
       queryKey: ["pokemon", pokeInfo],
       queryFn: fetchSinglePokemon,
@@ -21,19 +21,10 @@ function PokemonSolo({ pokeInfo }) {
    if (isPending) return <h2>Loading...</h2>;
    if (error) return <h2>Error: {error} </h2>;
 
-   const handleClick = () => {};
-
    return (
-      <section onClick={handleClick} className="pokemon">
+      <section onClick={() => setShowPokemon(true)} className="pokemon">
          <h2>{data?.name}</h2>
          <img src={data?.sprites?.front_default} />
-         {data.stats.map((stat) => {
-            return (
-               <div key={stat.stat.name}>
-                  {stat.stat.name}: {stat.base_stat}{" "}
-               </div>
-            );
-         })}
       </section>
    );
 }
